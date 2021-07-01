@@ -22,6 +22,7 @@ gem 'puma', '~> 5.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
+gem 'active_model_serializers'
 gem 'devise'
 gem 'devise_token_auth'
 
