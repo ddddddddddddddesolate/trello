@@ -17,6 +17,11 @@ module Api
         column = Columns::CreateColumnService.call(params[:name], params[:user_id])
         render json: column
       end
+
+      def update
+        column = Columns::UpdateColumnService.call(params[:user_id], params[:id], params[:name])
+        render json: column
+      end
     end
   end
 end
