@@ -16,7 +16,7 @@ module Columns
       column = Column.find_by id: @id, user_id: @user_id
       raise StandardError, 'Column not found' unless column.present?
 
-      column.update(name: @name)
+      column.update! name: @name
       column
     end
   end

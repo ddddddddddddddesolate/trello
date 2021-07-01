@@ -11,7 +11,7 @@ module Columns
     end
 
     def call
-      Column.where(user_id: @user_id)
+      Column.where user_id: @user_id
     end
   end
 end

@@ -12,7 +12,7 @@ module Columns
     end
 
     def call
-      Column.create(name: @name, user_id: @user_id)
+      Column.create! name: @name, user_id: @user_id
     end
   end
 end
