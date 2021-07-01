@@ -12,7 +12,10 @@ module Columns
     end
 
     def call
-      Column.where(user_id: @user_id, id: @id)
+      column = Column.where(user_id: @user_id, id: @id)
+      raise StandardError, 'Column not found' unless column.present?
+
+      column
     end
   end
 end
