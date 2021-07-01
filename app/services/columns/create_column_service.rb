@@ -2,7 +2,7 @@
 
 module Columns
   class CreateColumnService
-    include ApplicationService
+    include Callable
 
     attr_reader :user_id, :name
 

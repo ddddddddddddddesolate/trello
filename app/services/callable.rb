@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ApplicationService
+module Callable
   extend ActiveSupport::Concern
 
   class_methods do
