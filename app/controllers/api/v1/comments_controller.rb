@@ -15,6 +15,18 @@ module Api
         render json: result.comment
       end
 
+      def create
+        result = Comments::AddCommentService.call(current_user, card_params, comment_params)
+
+        if result.success
+          render json: result.comment,
+                 status: :created
+        else
+          render json: result.errors,
+                 status: :unprocessable_entity
+        end
+      end
+
       private
 
       def current_user
@@ -23,6 +35,10 @@ module Api
 
       def card_params
         params.permit(:column_id, :card_id)
+      end
+
+      def comment_params
+        params.permit(:commenter, :text)
       end
     end
   end
