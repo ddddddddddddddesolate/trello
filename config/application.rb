@@ -21,6 +21,7 @@ Bundler.require(*Rails.groups)
 
 module TrelloCore
   class Application < Rails::Application
+    config.autoload_paths << "#{config.root}/lib"
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 
