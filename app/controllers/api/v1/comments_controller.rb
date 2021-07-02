@@ -38,6 +38,17 @@ module Api
         end
       end
 
+      def destroy
+        result = Comments::DeleteCommentService.call(current_user, card_params, params[:id])
+
+        if result.success
+          render json: result.success
+        else
+          render json: result.errors,
+                 status: :unprocessable_entity
+        end
+      end
+
       private
 
       def current_user
