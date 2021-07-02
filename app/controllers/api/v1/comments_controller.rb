@@ -9,6 +9,12 @@ module Api
         render json: result.comments
       end
 
+      def show
+        result = Comments::GetCommentService.call(current_user, card_params, params[:id])
+
+        render json: result.comment
+      end
+
       private
 
       def current_user
