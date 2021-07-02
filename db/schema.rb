@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_01_032841) do
+ActiveRecord::Schema.define(version: 2021_07_02_091542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cards", force: :cascade do |t|
+    t.bigint "column_id", null: false
+    t.string "title"
+    t.text "text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["column_id"], name: "index_cards_on_column_id"
+  end
 
   create_table "columns", force: :cascade do |t|
     t.string "name"
@@ -48,5 +57,6 @@ ActiveRecord::Schema.define(version: 2021_07_01_032841) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "cards", "columns"
   add_foreign_key "columns", "users"
 end
