@@ -6,11 +6,11 @@ module Cards
 
     attr_reader :user_id, :column_id, :title, :text
 
-    def initialize(user_id, column_id, title, text)
+    def initialize(user_id, column_id, card_params)
       @user_id = user_id
       @column_id = column_id
-      @title = title
-      @text = text
+      @title = card_params[:title]
+      @text = card_params[:text]
     end
 
     def call
