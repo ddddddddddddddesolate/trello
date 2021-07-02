@@ -26,6 +26,17 @@ module Api
         end
       end
 
+      def update
+        result = Cards::UpdateCardService.call(current_user, column_params, params[:id], card_params)
+
+        if result.success
+          render json: result.card
+        else
+          render json: result.errors,
+                 status: :unprocessable_entity
+        end
+      end
+
       private
 
       def current_user
