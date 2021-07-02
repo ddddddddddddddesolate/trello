@@ -14,8 +14,7 @@ module Comments
     end
 
     def call
-      column = Column.find_by!(id: @column_id, user_id: @user_id)
-      card = column.cards.find_by!(id: @card_id)
+      card = Card.find_by!(id: @card_id, column_id: @column_id)
       comment = card.comments.find_by!(id: @id)
 
       OpenStruct.new(comment: comment)
