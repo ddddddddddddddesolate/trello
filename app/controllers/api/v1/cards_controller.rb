@@ -9,6 +9,12 @@ module Api
         render json: result.cards
       end
 
+      def show
+        result = Cards::GetCardService.call(current_user, column_params, params[:id])
+
+        render json: result.card
+      end
+
       private
 
       def current_user
