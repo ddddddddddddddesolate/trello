@@ -38,6 +38,17 @@ module Api
         end
       end
 
+      def destroy
+        result = Cards::DeleteCardService.call(current_user, column_params, params[:id])
+
+        if result.success
+          render json: result.success
+        else
+          render json: result.errors,
+                 status: :unprocessable_entity
+        end
+      end
+
       private
 
       def current_user
