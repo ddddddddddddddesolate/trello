@@ -27,6 +27,17 @@ module Api
         end
       end
 
+      def update
+        result = Comments::UpdateCommentService.call(current_user, card_params, params[:id], comment_params)
+
+        if result.success
+          render json: result.comment
+        else
+          render json: result.errors,
+                 status: :unprocessable_entity
+        end
+      end
+
       private
 
       def current_user
