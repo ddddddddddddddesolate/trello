@@ -22,6 +22,11 @@ module Api
         column = Columns::UpdateColumnService.call(params[:user_id], params[:id], params[:name])
         render json: column
       end
+
+      def destroy
+        column = Columns::DeleteColumnService.call(params[:user_id], params[:id])
+        render json: column
+      end
     end
   end
 end
