@@ -8,5 +8,5 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  has_many :columns, dependent: delete_all
+  has_many :columns, dependent: :delete_all
 end
