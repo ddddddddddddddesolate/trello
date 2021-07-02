@@ -12,7 +12,7 @@ module Cards
     end
 
     def call
-      column = Column.find_by!(id: @column_id)
+      column = Column.find_by!(id: @column_id, user_id: @user_id)
       cards = column.cards
 
       OpenStruct.new(cards: cards)
