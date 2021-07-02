@@ -19,10 +19,11 @@ module Api
         result = Columns::CreateColumnService.call(current_user, column_params)
 
         if result.success
-          render json: result.column
+          render json: result.column,
+                 status: :created
         else
           render json: result.errors,
-                 status: :bad_request
+                 status: :unprocessable_entity
         end
       end
 

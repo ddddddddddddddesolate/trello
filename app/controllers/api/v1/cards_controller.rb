@@ -19,10 +19,11 @@ module Api
         result = Cards::CreateCardService.call(current_user, column_params, card_params)
 
         if result.success
-          render json: result.card
+          render json: result.card,
+                 status: :created
         else
           render json: result.errors,
-                 status: :bad_request
+                 status: :unprocessable_entity
         end
       end
 
