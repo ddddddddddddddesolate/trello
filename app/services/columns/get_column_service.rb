@@ -12,10 +12,11 @@ module Columns
     end
 
     def call
-      column = Column.where user_id: @user_id, id: @id
-      raise StandardError, 'Column not found' unless column.present?
+      column = Column.find_by!(user_id: @user_id, id: @id)
 
-      column
+      # TODO: add user access checking
+
+      OpenStruct.new(column: column)
     end
   end
 end

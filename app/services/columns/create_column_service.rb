@@ -6,13 +6,15 @@ module Columns
 
     attr_reader :user_id, :name
 
-    def initialize(name, user_id)
-      @name = name
+    def initialize(user_id, name)
       @user_id = user_id
+      @name = name
     end
 
     def call
-      Column.create! name: @name, user_id: @user_id
+      column = Column.create!(user_id: @user_id, name: @name)
+
+      OpenStruct.new(success: column.present?, errors: column.errors, column: column)
     end
   end
 end

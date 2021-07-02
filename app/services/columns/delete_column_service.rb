@@ -12,10 +12,10 @@ module Columns
     end
 
     def call
-      column = Column.find_by user_id: @user_id, id: @id
-      raise StandardError, 'Column not found' unless column.present?
+      column = Column.find_by!(user_id: @user_id, id: @id)
+      column.destroy
 
-      column.destroy!
+      OpenStruct.new(success: column.destroyed?, errors: column.errors)
     end
   end
 end

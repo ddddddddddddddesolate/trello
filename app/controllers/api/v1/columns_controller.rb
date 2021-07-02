@@ -4,28 +4,59 @@ module Api
   module V1
     class ColumnsController < ApplicationController
       def index
-        columns = Columns::GetColumnsService.call(params[:user_id])
-        render json: columns
+        result = Columns::GetColumnsService.call(current_user)
+
+        render json: result.columns
       end
 
       def show
-        column = Columns::GetColumnService.call(params[:user_id], params[:id])
-        render json: column
+        result = Columns::GetColumnService.call(current_user, params[:id])
+
+        render json: result.column
       end
 
       def create
-        column = Columns::CreateColumnService.call(params[:name], params[:user_id])
-        render json: column
+        result = Columns::CreateColumnService.call(current_user, column_params)
+
+        if result.success
+          render json: result.column
+        else
+          render json: result.errors,
+                 status: :bad_request
+        end
       end
 
       def update
-        column = Columns::UpdateColumnService.call(params[:user_id], params[:id], params[:name])
-        render json: column
+        result = Columns::UpdateColumnService.call(current_user, params[:id], column_params)
+
+        if result.success
+          render json: result.column
+        else
+          render json: result.errors,
+                 status: :unprocessable_entity
+        end
       end
 
       def destroy
-        column = Columns::DeleteColumnService.call(params[:user_id], params[:id])
-        render json: column
+        result = Columns::DeleteColumnService.call(current_user, params[:id])
+
+        if result.success
+          render json: result.success
+        else
+          render json: result.errors,
+                 status: :unprocessable_entity
+        end
+      end
+
+      private
+
+      # TODO: change to auth user
+      def current_user
+        params.require(:user_id)
+      end
+
+      def column_params
+        params.require(:name)
       end
     end
   end

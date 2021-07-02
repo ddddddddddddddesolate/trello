@@ -13,11 +13,9 @@ module Columns
     end
 
     def call
-      column = Column.find_by id: @id, user_id: @user_id
-      raise StandardError, 'Column not found' unless column.present?
+      column = Column.find_by!(id: @id, user_id: @user_id)
 
-      column.update! name: @name
-      column
+      OpenStruct.new(success: column.update(name: @name), errors: column.errors, column: column)
     end
   end
 end
