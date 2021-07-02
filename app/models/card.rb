@@ -2,6 +2,7 @@
 
 class Card < ApplicationRecord
   belongs_to :column
+  has_many :comments, dependent: :delete_all
 
   validates :column, presence: true
   validates :title, presence: true, length: { minimum: 3, maximum: 30 }
