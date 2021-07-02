@@ -49,7 +49,7 @@ module Api
       end
 
       def comment_params
-        params.permit(:commenter, :text)
+        params.permit(:text)
       end
     end
   end

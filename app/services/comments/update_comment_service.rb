@@ -4,14 +4,13 @@ module Comments
   class UpdateCommentService
     include Callable
 
-    attr_reader :user_id, :column_id, :card_id, :id, :commenter, :text
+    attr_reader :user_id, :column_id, :card_id, :id, :text
 
     def initialize(user_id, card_params, id, comment_params)
       @user_id = user_id
       @column_id = card_params[:column_id]
       @card_id = card_params[:card_id]
       @id = id
-      @commenter = comment_params[:commenter]
       @text = comment_params[:text]
     end
 
@@ -19,7 +18,7 @@ module Comments
       card = Card.find_by!(id: @card_id, column_id: @column_id)
       comment = card.comments.find_by!(id: @id)
 
-      if comment.update(user_id: @commenter, text: @text)
+      if comment.update(text: @text)
         result(true,{}, comment)
       else
         result(false, comment.errors)
