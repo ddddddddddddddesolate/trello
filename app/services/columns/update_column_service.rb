@@ -4,18 +4,19 @@ module Columns
   class UpdateColumnService
     include Callable
 
-    attr_reader :id, :name, :user_id
+    attr_reader :current_user, :id, :column_params
 
-    def initialize(user_id, id, name)
-      @user_id = user_id
+    def initialize(current_user, id, column_params)
+      @current_user = current_user
       @id = id
-      @name = name
+      @column_params = column_params
     end
 
     def call
-      column = Column.find_by!(id: @id, user_id: @user_id)
-
-      OpenStruct.new(success: column.update(name: @name), errors: column.errors, column: column)
+      raise Exceptions::Unauthorized, 'Unauthorized' unless @current_user.present?
+      column = Column.find_by!(id: @id)
+      raise Exceptions::Forbidden, 'Forbidden' unless column.user == @current_user
+      OpenStruct.new(success: column.update(@column_params), errors: column.errors, column: column)
     end
   end
 end
