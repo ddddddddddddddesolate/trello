@@ -52,7 +52,7 @@ module Api
       end
 
       def column_params
-        params.require(:name)
+        params.permit(:name)
       end
     end
   end

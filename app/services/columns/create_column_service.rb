@@ -4,17 +4,18 @@ module Columns
   class CreateColumnService
     include Callable
 
-    attr_reader :user_id, :name
+    attr_reader :current_user, :column_params
 
-    def initialize(user_id, name)
-      @user_id = user_id
-      @name = name
+    def initialize(current_user, column_params)
+      @current_user = current_user
+      @column_params = column_params
     end
 
     def call
-      column = Column.create!(user_id: @user_id, name: @name)
-
-      OpenStruct.new(success: column.present?, errors: column.errors, column: column)
+      raise Exceptions::Unauthorized, 'Unauthorized' unless @current_user.present?
+      column_params[:user_id] = @current_user.id
+      column = Column.create(@column_params)
+      OpenStruct.new(success: column.valid?, errors: column.errors, column: column)
     end
   end
 end
