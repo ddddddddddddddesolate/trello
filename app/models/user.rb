@@ -9,5 +9,6 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :columns, dependent: :delete_all
+  has_many :cards, dependent: :delete_all
   has_many :comments, dependent: :delete_all
 end
