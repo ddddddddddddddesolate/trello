@@ -4,16 +4,22 @@ module Cards
   class GetCardsService
     include Callable
 
-    attr_reader :user_id, :column_id
+    attr_reader :current_user, :column_params, :user_id
 
-    def initialize(user_id, column_id)
+    def initialize(current_user, column_params, user_id)
+      @current_user = current_user
+      @column_params = column_params
       @user_id = user_id
-      @column_id = column_id
     end
 
     def call
-      column = Column.find_by!(id: @column_id, user_id: @user_id)
-      cards = column.cards
+      raise Exceptions::Unauthorized, 'Unauthorized' unless @current_user.present?
+      column = Column.find_by!(id: @column_params[:column_id])
+      if @user_id.present?
+        cards = column.cards.where(user_id: @user_id)
+      else
+        cards = column.cards
+      end
 
       OpenStruct.new(cards: cards)
     end
