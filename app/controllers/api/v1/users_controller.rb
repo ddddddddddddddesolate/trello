@@ -6,17 +6,19 @@ module Api
       before_action :authenticate_user!
 
       def index
-        result = Users::GetUsersService.call(@current_user)
+        result = Users::GetUsersService.call
 
-        render json: result.users,
-               status: :ok
+        render json: {
+          data: result.users,
+        }, status: :ok
       end
 
       def show
-        result = Users::GetUserService.call(@current_user, user_params)
+        result = Users::GetUserService.call(user_params)
 
-        render json: result.user,
-               status: :ok
+        render json: {
+          data: result.user,
+        }, status: :ok
       end
 
       def user_params
