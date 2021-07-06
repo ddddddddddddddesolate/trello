@@ -3,20 +3,24 @@
 module Api
   module V1
     class CommentsController < ApplicationController
-      def index
-        result = Comments::GetCommentsService.call(current_user, card_params)
+      before_action :authenticate_user!
 
-        render json: result.comments
+      def index
+        result = Comments::GetCommentsService.call(@current_user, card_params, params[:user_id])
+
+        render json: result.comments,
+               status: :ok
       end
 
       def show
-        result = Comments::GetCommentService.call(current_user, card_params, params[:id])
+        result = Comments::GetCommentService.call(@current_user, card_params, params[:id])
 
-        render json: result.comment
+        render json: result.comment,
+               status: :ok
       end
 
       def create
-        result = Comments::AddCommentService.call(current_user, card_params, comment_params)
+        result = Comments::AddCommentService.call(@current_user, card_params, comment_params)
 
         if result.success
           render json: result.comment,
@@ -28,10 +32,11 @@ module Api
       end
 
       def update
-        result = Comments::UpdateCommentService.call(current_user, card_params, params[:id], comment_params)
+        result = Comments::UpdateCommentService.call(@current_user, card_params, params[:id], comment_params)
 
         if result.success
-          render json: result.comment
+          render json: result.comment,
+                 status: :ok
         else
           render json: result.errors,
                  status: :unprocessable_entity
@@ -39,10 +44,11 @@ module Api
       end
 
       def destroy
-        result = Comments::DeleteCommentService.call(current_user, card_params, params[:id])
+        result = Comments::DeleteCommentService.call(@current_user, card_params, params[:id])
 
         if result.success
-          render json: result.success
+          render json: result.success,
+                 status: :ok
         else
           render json: result.errors,
                  status: :unprocessable_entity
@@ -50,10 +56,6 @@ module Api
       end
 
       private
-
-      def current_user
-        params.require(:user_id)
-      end
 
       def card_params
         params.permit(:column_id, :card_id)
