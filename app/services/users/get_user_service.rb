@@ -12,6 +12,7 @@ module Users
 
     def call
       user = User.find_by!(user_params)
+
       OpenStruct.new(user: user)
     end
   end

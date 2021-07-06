@@ -6,6 +6,7 @@ module Users
 
     def call
       users = User.all
+
       OpenStruct.new(users: users)
     end
   end
