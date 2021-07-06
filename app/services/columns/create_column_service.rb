@@ -12,7 +12,7 @@ module Columns
     end
 
     def call
-      column = current_user.columns.new(@column_params)
+      column = current_user.columns.new(column_params)
 
       OpenStruct.new(success: column.save, errors: column.errors, column: column)
     end
