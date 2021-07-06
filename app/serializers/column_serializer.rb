@@ -1,13 +1,9 @@
 # frozen_string_literal: true
 
 class ColumnSerializer < ActiveModel::Serializer
-  attributes :id, :name, :user, :cards
+  attributes :id, :name, :userId
 
-  def user
-    object.user
-  end
-
-  def cards
-    object.cards
+  def userId
+    object.user_id
   end
 end

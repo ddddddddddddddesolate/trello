@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 class CardSerializer < ActiveModel::Serializer
-  attributes :id, :title, :text, :column
+  attributes :id, :columnId, :userId, :title, :text
 
-  def column
-    object.column
+  def columnId
+    object.column_id
+  end
+
+  def userId
+    object.user_id
   end
 end

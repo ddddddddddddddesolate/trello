@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class CommentSerializer < ActiveModel::Serializer
-  attributes :id, :card, :author, :text
+  attributes :id, :cardId, :userId, :text
 
-  def card
-    object.card
+  def cardId
+    object.card_id
   end
 
-  def author
-    object.user
+  def userId
+    object.user_id
   end
 end
