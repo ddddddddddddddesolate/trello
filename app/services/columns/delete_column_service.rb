@@ -12,11 +12,10 @@ module Columns
     end
 
     def call
-      raise Exceptions::Unauthorized, 'Unauthorized' unless @current_user.present?
-      column = Column.find_by!(id: @id)
-      raise Exceptions::Forbidden, 'Forbidden' unless column.user == @current_user
+      column = current_user.columns.find_by!(id: id)
+
       column.destroy
-      
+
       OpenStruct.new(success: column.destroyed?, errors: column.errors)
     end
   end

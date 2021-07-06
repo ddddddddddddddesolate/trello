@@ -12,11 +12,9 @@ module Columns
     end
 
     def call
-      raise Exceptions::Unauthorized, 'Unauthorized' unless @current_user.present?
-      column_params[:user_id] = @current_user.id
-      column = Column.create(@column_params)
-      
-      OpenStruct.new(success: column.valid?, errors: column.errors, column: column)
+      column = current_user.columns.new(@column_params)
+
+      OpenStruct.new(success: column.save, errors: column.errors, column: column)
     end
   end
 end

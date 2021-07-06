@@ -4,17 +4,15 @@ module Columns
   class GetColumnService
     include Callable
 
-    attr_reader :current_user, :id
+    attr_reader :id
 
-    def initialize(current_user, id)
-      @current_user = current_user
+    def initialize(id)
       @id = id
     end
 
     def call
-      raise Exceptions::Unauthorized, 'Unauthorized' unless @current_user.present?
-      column = Column.find_by!(id: @id)
-      
+      column = Column.find_by!(id: id)
+
       OpenStruct.new(column: column)
     end
   end
