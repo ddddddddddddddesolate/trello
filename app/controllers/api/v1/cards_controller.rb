@@ -3,20 +3,23 @@
 module Api
   module V1
     class CardsController < ApplicationController
-      def index
-        result = Cards::GetCardsService.call(current_user, column_params)
+      before_action :authenticate_user!
 
-        render json: result.cards
+      def index
+        result = Cards::GetCardsService.call(@current_user, column_params, params[:user_id])
+
+        render json: result.cards,
+               status: :ok
       end
 
       def show
-        result = Cards::GetCardService.call(current_user, column_params, params[:id])
+        result = Cards::GetCardService.call(@current_user, column_params, params[:id])
 
         render json: result.card
       end
 
       def create
-        result = Cards::CreateCardService.call(current_user, column_params, card_params)
+        result = Cards::CreateCardService.call(@current_user, column_params, card_params)
 
         if result.success
           render json: result.card,
@@ -28,7 +31,7 @@ module Api
       end
 
       def update
-        result = Cards::UpdateCardService.call(current_user, column_params, params[:id], card_params)
+        result = Cards::UpdateCardService.call(@current_user, column_params, params[:id], card_params)
 
         if result.success
           render json: result.card
@@ -39,7 +42,7 @@ module Api
       end
 
       def destroy
-        result = Cards::DeleteCardService.call(current_user, column_params, params[:id])
+        result = Cards::DeleteCardService.call(@current_user, column_params, params[:id])
 
         if result.success
           render json: result.success
@@ -51,12 +54,8 @@ module Api
 
       private
 
-      def current_user
-        params.require(:user_id)
-      end
-
       def column_params
-        params.require(:column_id)
+        params.permit(:column_id)
       end
 
       def card_params
