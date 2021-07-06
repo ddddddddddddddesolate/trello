@@ -4,20 +4,24 @@ module Comments
   class AddCommentService
     include Callable
 
-    attr_reader :user_id, :column_id, :card_id, :text
+    attr_reader :current_user, :card_params, :comment_params
 
-    def initialize(user_id, card_params, comment_params)
-      @user_id = user_id
-      @column_id = card_params[:column_id]
-      @card_id = card_params[:card_id]
-      @text = comment_params[:text]
+    def initialize(current_user, card_params, comment_params)
+      @card_params = {}
+
+      @current_user = current_user
+      @card_params[:column_id] = card_params[:column_id]
+      @card_params[:id] = card_params[:card_id]
+      @comment_params = comment_params
     end
 
     def call
-      card = Card.find_by!(id: @card_id, column_id: @column_id)
-      comment = card.comments.create!(user_id: @user_id, text: @text)
+      raise Exceptions::Unauthorized, 'Unauthorized' unless @current_user.present?
+      card = Card.find_by!(@card_params)
+      @comment_params[:user_id] = @current_user.id
+      comment = card.comments.create(@comment_params)
 
-      OpenStruct.new(success: comment.present?, errors: comment.errors, comment: comment)
+      OpenStruct.new(success: comment.valid?, errors: comment.errors, comment: comment)
     end
   end
 end
