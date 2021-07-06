@@ -15,7 +15,8 @@ module Api
       def show
         result = Cards::GetCardService.call(@current_user, column_params, params[:id])
 
-        render json: result.card
+        render json: result.card,
+               status: :ok
       end
 
       def create
@@ -34,7 +35,8 @@ module Api
         result = Cards::UpdateCardService.call(@current_user, column_params, params[:id], card_params)
 
         if result.success
-          render json: result.card
+          render json: result.card,
+                 status: :ok
         else
           render json: result.errors,
                  status: :unprocessable_entity
@@ -45,7 +47,8 @@ module Api
         result = Cards::DeleteCardService.call(@current_user, column_params, params[:id])
 
         if result.success
-          render json: result.success
+          render json: result.success,
+                 status: :ok
         else
           render json: result.errors,
                  status: :unprocessable_entity
