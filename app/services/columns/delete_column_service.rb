@@ -16,6 +16,7 @@ module Columns
       column = Column.find_by!(id: @id)
       raise Exceptions::Forbidden, 'Forbidden' unless column.user == @current_user
       column.destroy
+      
       OpenStruct.new(success: column.destroyed?, errors: column.errors)
     end
   end

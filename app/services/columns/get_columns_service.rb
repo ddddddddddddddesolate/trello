@@ -18,6 +18,7 @@ module Columns
       else
         columns = Column.all
       end
+      
       OpenStruct.new(columns: columns)
     end
   end

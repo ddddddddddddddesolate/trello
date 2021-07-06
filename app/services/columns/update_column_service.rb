@@ -16,6 +16,7 @@ module Columns
       raise Exceptions::Unauthorized, 'Unauthorized' unless @current_user.present?
       column = Column.find_by!(id: @id)
       raise Exceptions::Forbidden, 'Forbidden' unless column.user == @current_user
+      
       OpenStruct.new(success: column.update(@column_params), errors: column.errors, column: column)
     end
   end
