@@ -4,52 +4,58 @@ module Api
   module V1
     class CommentsController < AuthenticatedController
       def index
-        result = Comments::GetCommentsService.call(@current_user, card_params, params[:user_id])
+        result = Comments::GetCommentsService.call(card_params, params[:user_id])
 
-        render json: result.comments,
-               status: :ok
+        render json: {
+                 data: result.comments,
+               }, status: :ok
       end
 
       def show
-        result = Comments::GetCommentService.call(@current_user, card_params, params[:id])
+        result = Comments::GetCommentService.call(card_params, params[:id])
 
-        render json: result.comment,
-               status: :ok
+        render json: {
+                 data: result.comment,
+               }, status: :ok
       end
 
       def create
-        result = Comments::AddCommentService.call(@current_user, card_params, comment_params)
+        result = Comments::AddCommentService.call(current_user, card_params, comment_params)
 
         if result.success
-          render json: result.comment,
-                 status: :created
+          render json: {
+                   data: result.comment,
+                 }, status: :created
         else
-          render json: result.errors,
-                 status: :unprocessable_entity
+          render json: {
+                   errors: result.errors,
+                 }, status: :unprocessable_entity
         end
       end
 
       def update
-        result = Comments::EditCommentService.call(@current_user, card_params, params[:id], comment_params)
+        result = Comments::EditCommentService.call(current_user, params[:id], comment_params)
 
         if result.success
-          render json: result.comment,
-                 status: :ok
+          render json: {
+                   data: result.comment,
+                 }, status: :ok
         else
-          render json: result.errors,
-                 status: :unprocessable_entity
+          render json: {
+                   data: result.errors,
+                 }, status: :unprocessable_entity
         end
       end
 
       def destroy
-        result = Comments::DeleteCommentService.call(@current_user, card_params, params[:id])
+        result = Comments::DeleteCommentService.call(current_user, params[:id])
 
         if result.success
-          render json: result.success,
-                 status: :ok
+          render status: :no_content
         else
-          render json: result.errors,
-                 status: :unprocessable_entity
+          render json: {
+                   data: result.errors,
+                 }, status: :unprocessable_entity
         end
       end
 
