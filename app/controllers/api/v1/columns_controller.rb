@@ -2,9 +2,7 @@
 
 module Api
   module V1
-    class ColumnsController < ApplicationController
-      before_action :authenticate_user!
-
+    class ColumnsController < AuthenticatedController
       def index
         result = Columns::GetColumnsService.call(@current_user, params[:user_id])
 

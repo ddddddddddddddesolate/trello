@@ -2,9 +2,7 @@
 
 module Api
   module V1
-    class CardsController < ApplicationController
-      before_action :authenticate_user!
-
+    class CardsController < AuthenticatedController
       def index
         result = Cards::GetCardsService.call(@current_user, column_params, params[:user_id])
 

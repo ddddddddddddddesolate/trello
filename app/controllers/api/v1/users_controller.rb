@@ -2,9 +2,7 @@
 
 module Api
   module V1
-    class UsersController < ApplicationController
-      before_action :authenticate_user!
-
+    class UsersController < AuthenticatedController
       def index
         result = Users::GetUsersService.call
 

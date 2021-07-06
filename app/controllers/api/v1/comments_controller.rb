@@ -2,9 +2,7 @@
 
 module Api
   module V1
-    class CommentsController < ApplicationController
-      before_action :authenticate_user!
-
+    class CommentsController < AuthenticatedController
       def index
         result = Comments::GetCommentsService.call(@current_user, card_params, params[:user_id])
 
