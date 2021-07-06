@@ -32,7 +32,7 @@ module Api
       end
 
       def update
-        result = Comments::UpdateCommentService.call(@current_user, card_params, params[:id], comment_params)
+        result = Comments::EditCommentService.call(@current_user, card_params, params[:id], comment_params)
 
         if result.success
           render json: result.comment,
