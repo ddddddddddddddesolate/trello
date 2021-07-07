@@ -20,7 +20,7 @@ module Api
       end
 
       def create
-        result = Cards::CreateCardService.call(current_user, params[:column_id], card_params)
+        result = Cards::CreateCardService.call(current_user, card_params)
 
         if result.success
           render json: {
@@ -48,7 +48,7 @@ module Api
       end
 
       def destroy
-        result = Cards::DeleteCardService.call(current_user, params[:id])
+        result = Cards::DeleteCardService.call(current_user, params[:column_id], params[:id])
 
         if result.success
           render status: :no_content
@@ -62,7 +62,7 @@ module Api
       private
 
       def card_params
-        params.permit(:title, :text)
+        params.permit(:column_id, :title, :text)
       end
     end
   end
